@@ -10,6 +10,7 @@
 
 ## Descripción
 
+En este trabajo se busca la caracterización de una antena mediante la realizacion de diagramas de radiación, para ello se implemento un sistema que va a ir rotando con una antena receptora, se registraran los datos correspondientes de las mediciones y se procede a realizar los diagramas de radiación.
 
 ### 🛠 Construído con:
 
@@ -39,9 +40,15 @@ El código, a diferencia del arduino, es complicado y funciona derrepente, me ex
 
 El código posee tres clases, las cuales son Controlador, Arduino y Archivo:
 
-* **Controlador**: En esta se crearon los metodos necesarios para capturar los datos de la antena y poder manipular lo que se escribe y lee del buffer por parte del PowerMeter002
+* **Controlador**: En esta se crearon los metodos necesarios para capturar los datos de la antena y poder manipular lo que se escribe y lee del buffer por parte del PowerMeter002.
 * **Arduino**: El arduino posee los metodos correspondientes a las rotaciones posibles que puede realizar la antena, esto incluye los comandos dichos en la sección Arduino de este repositorio.
-* **Archivo**:
+* **Archivo**: En esta clase se provee de los aspectos necesarios para crear los csv junto con el guardado de estos en la carpeta dada como parametro de inicio al ejecutar el código.
+
+Aparte de poseer estas clases existe una funcion llamada **initvalues()** que lo unico que hace es inicializar unos valores que se ocupan constantemente en cada vuelta de medición que se hace.
+
+Con respecto a la vueltas, se toma como una vuelta dos iteraciones, un giro horario y otro giro antihorario, esto se hace para que los cables ocupado no se enreden. En cada rotacion que haga la antena, horario o antihorario, se toman medidas para realizar el diagrama de radiación, el cual se va a ir graficando a medido que se logren rotaciones utiles que pasen por los filtros puestas para certificar la integridad de los datos. Los diagrmas generados no se deben de cerrar hasta que terminen todas las vueltas solicitadas, además de que cada rotacion lograda se va a solapar sobre la medicion anterior, sin borrarla claramente, esto se hace para poder ver un promedio de comportamiento de la antena con respecto a las medidas.
+
+Si se quiere saber mas sobre el código, tambien se pueden leer los comentarios dejados en este mismo, donde se explican algunas secciones o lineas de código.
 
 
 ## :shipit: Instalación
