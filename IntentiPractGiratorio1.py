@@ -146,7 +146,7 @@ class Archivo():
 def initvalues(Pw):
     global meanpotencia, maxPeak, potenciaold, muestras, oldtiempo, valid, verificador, VueltaTerminada, VecPotencia, vale
     meanpotencia = 0
-    maxPeak = 0
+    maxPeak = -100
     potenciaold=-100
     muestras = 0
     oldtiempo = 0
@@ -161,6 +161,7 @@ Pw = Controlador()
 Ardu = Arduino()
 novueltas = 0
 fallos = []
+maxPotencia = []
 foldername = "./"+sys.argv[3]+"/"
 if(not os.path.exists(foldername)):
     os.mkdir(foldername)
@@ -198,6 +199,8 @@ for i in range(int(sys.argv[2])):
                 #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
+                if(float(maxPeak)<potencia):
+                    maxPeak = potencia
                 VecPotencia.append(potencia)
                 oldtiempo = tiempo
                 file.Escribir(tiempo, potencia)
@@ -229,6 +232,7 @@ for i in range(int(sys.argv[2])):
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
+        maxPotencia.append(maxPeak)
     except: 
         #Se guarda el numero de rotacion fallido
         fallos.append(str(i).zfill(3)+"Horario")
@@ -262,6 +266,8 @@ for i in range(int(sys.argv[2])):
                 #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
+                if(float(maxPeak)<potencia):
+                    maxPeak = potencia
                 VecPotencia.append(potencia)
                 file.Escribir(tiempo, potencia)
                 oldtiempo = tiempo
@@ -294,11 +300,19 @@ for i in range(int(sys.argv[2])):
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
+        maxPotencia.append(maxPeak)
     except:
         #Se guarda el numero de rotacion fallido 
         fallos.append(str(i).zfill(3)+"Antihorario")
         novueltas+=1
 
+
+
+print("\nMax Peak de todas las vueltas: ", maxPotencia)
+promMaxPot = 0
+for i in maxPotencia:
+    promMaxPot = float(promMaxPot) + float(i)
+print("Potencia maxima promedio: ", promMaxPot/len(maxPotencia))
 plt.show(block = True)
 #Se imprime la cantidad de rotaciones no realizadas y se dicen cuales fueron.
 print("\nCantidad de vueltas realizadas horario y antihorario: ", int(sys.argv[2])*2 - novueltas)
