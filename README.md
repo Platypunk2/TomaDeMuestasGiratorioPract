@@ -1,7 +1,7 @@
 <br />
 <div align="center">
 
-  <h3 align="center">Toma de Muestras de Antena girando para hacer diagrama de radiación</h3>
+  <h3 align="center">Toma de Muestras de Antena Girando para Hacer Diagrama de Radiación</h3>
 
   <p align="center">
     con Python
