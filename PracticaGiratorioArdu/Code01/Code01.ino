@@ -62,7 +62,7 @@ void loop() {
             
           }
           nogrados=(final.toFloat()); 
-          rotateDegMotor3(nogrados, .35); // BY ERICK .05// .23 albert=2.08s/vuelta--> 60vueltas=3min42seg=222seg,(con script matplotlib y placa acoplada al brazo)... //.35 con placa desacoplada del brazo -->1.38 s/vuelta  --> 60 vueltas=2min38seg = 158seg (con el script de matplotlib)
+          rotateDegMotor3(nogrados, .30); // BY ERICK .05// .23 albert=2.08s/vuelta--> 60vueltas=3min42seg=222seg,(con script matplotlib y placa acoplada al brazo)... //.35 con placa desacoplada del brazo -->1.38 s/vuelta  --> 60 vueltas=2min38seg = 158seg (con el script de matplotlib)
           //rotate(-1600, .25); //reverse
           Serial.println("O");
           final = "";
@@ -83,7 +83,7 @@ void loop() {
             }
           }
           nogrados=(final.toFloat());
-          rotateDegMotor3(-nogrados, .35); // BY ERICK .05 , .23 albert
+          rotateDegMotor3(-nogrados, .30); // BY ERICK .05 , .23 albert
           //rotate(-1600, .25); //reverse
           Serial.println("O");
           final = "";
