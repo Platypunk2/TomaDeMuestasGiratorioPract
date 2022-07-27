@@ -35,20 +35,26 @@ se utilizo la version actual de python (v3.8.10) para este proyecto, junto con m
 ### Primeros pasos
 
 ```curl
-usage: RFPM002-cp_us.py [-h] [option] Number Carpeta Archivo
+usage: IntentiPractGiratorio1.py [-h] Grados Vueltas Carpeta
 
-Script para Adquisicion de datos del Power Meter, donde se le pasa por parametro  el tiempo en minutos o el numero de muestras que se quieren tomar.
- Example: "RFPM002-cp_us.py s 1000 ./Mediciones_exterior Posicion1"
- Example: "RFPM002-cp_us.py t 10 ./Mediciones_exterior Posicion1"
+Script preparado para utilizar el brazoGiratorio. Se toman mediciones mientras el brazo este girando X grados,
+se empieza a adquirir los datos y despues se envia la instruccion de mover. Se detiene la adquisicion, cuando
+el aruduino retorna el termino de recorrer los X grados y se Plotea un grafico con "Matplotlib". Se repiten 
+X numero de vueltas indicadas en parametros, y se plotean ensima de la anterior.
+Para aprovechar la obligatoria vuelta en sentido antihoraria para desenrollar los cables, se aprovecha de adquirir
+muestras OBLIGACION de controlar en processing esto, ya que hay que invertir el arreglo. Se envian los caracteres 
+N/O para enviar al brazoGiratorio X grados a mover (obtenidos en parametros) en un sentido o en otro.
+'./[NombreCarpetaParametro]/vuelta_###.csv'
+
+Example: "IntentiPractGiratorio1.py 360 250 ./Mediciones_exterior"
 
 positional arguments:
-  [option]    s (samples), o 
-              t (time).
-  Number      for option=s ---> numero de muestras
-              for option=t ---> tiempo en minutos.
+  Grados      Grados a mover el brazoGiratorio con las instrucciones N/O del arduino.
+  Vueltas     Numero de vueltas que se quieren hacer, recomendacion siempre utilizar
+              un numero par, esto debido a que asi los cables no se enrollan entre una
+              tanda de medicion y otra inmediatamente continua.
   Carpeta     Nombre o ruta de la carpeta donde se guardaran los archivos.
               En caso de no existir la carpeta se crea automaticamente.
-  Archivo     Nombre del archivo a guardar.
 
 optional arguments:
   -h, --help  show this help message and exit
