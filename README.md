@@ -26,8 +26,11 @@
 
 Tener Python instalado junto a las siguientes librerias
 * [Installation Guide Python](https://www.python.org/downloads/)
+* [Installation Guide Matplotlib](https://matplotlib.org/stable/users/installing/index.html)
+* [Installation Guide Pyserial](https://pyserial.readthedocs.io/en/latest/pyserial.html#installation)
+* [Installation Guide Numpy](https://numpy.org/install/)
 
-se utilizo la version actual (v3.8.10) para este proyecto
+se utilizo la version actual de python (v3.8.10) para este proyecto, junto con matplotlib v3.5.2, pyserail v3.5 y numpy v1.23.1
 
 ### Primeros pasos
 
