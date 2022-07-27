@@ -48,6 +48,8 @@ Aparte de poseer estas clases existe una funcion llamada **initvalues()** que lo
 
 Con respecto a la vueltas, se toma como una vuelta dos iteraciones, un giro horario y otro giro antihorario, esto se hace para que los cables ocupado no se enreden. En cada rotacion que haga la antena, horario o antihorario, se toman medidas para realizar el diagrama de radiación, el cual se va a ir graficando a medido que se logren rotaciones utiles que pasen por los filtros puestas para certificar la integridad de los datos. Los diagrmas generados no se deben de cerrar hasta que terminen todas las vueltas solicitadas, además de que cada rotacion lograda se va a solapar sobre la medicion anterior, sin borrarla claramente, esto se hace para poder ver un promedio de comportamiento de la antena con respecto a las medidas.
 
+Al finalizar el código se deberian de haber creado una cantidad de .csv igual a la cantidad de vueltas solicitadas x2.
+
 Si se quiere saber mas sobre el código, tambien se pueden leer los comentarios dejados en este mismo, donde se explican algunas secciones o lineas de código.
 
 
@@ -65,7 +67,15 @@ Tener Python instalado junto a las siguientes librerias
 
 se utilizo la version actual de python (v3.8.10) para este proyecto, junto con matplotlib v3.5.2, pyserail v3.5 y numpy v1.23.1
 
-### Primeros pasos
+### Ejecución
+
+Para ejecutar el código se debe ir por medio de la terminal a la carpeta donde esta el código python y realizar los chmod 666 correspondientes a los puertos seriales que se quieren ocupar. En el caso de mi computador fueron el ttyUB0 (Identificando al PowerMeter002) y el ttyACM0, tambien puede ejecutar con el comando sudo, pero esto implicaria haber realizado las instalaciones anteriores con pip tambien aplicando el super usuario. Al ya estar en la carpeta del código se recomienda aplicar el siguiente comando:}
+
+```curl
+python3 IntentiPractGiratorio1.py -h
+```
+
+Este despliegara el siguiente texto donde se explican las variables para realizar la ejecución y algunos datos importantes a considerar con respecto al código y el proceso que realiza este mismo.
 
 ```curl
 usage: IntentiPractGiratorio1.py [-h] Grados Vueltas Carpeta
@@ -93,6 +103,14 @@ optional arguments:
   -h, --help  show this help message and exit
 
 ```
+Al ya haber entendido solo faltaria ejecutar el código correctamente, esto implica:
+
+```curl
+python 3 IntentiPractGiratorio1.py <cantidad de grados de rotacion por vuelta> <cantidad de vueltas que se quieren relaizar> <./nombre de la carpeta donde se quiere guardar los .csv>
+```
+
+Y listo, el código deberia ya estar ejecutandose, y recuerda que si se demora al iniciar estimadamente unos 6 segunos, es por los time.sleep() implementados para abrir el buffer del Arduino y del PowerMeter002.
+
 
 ## Elementos extras
 
