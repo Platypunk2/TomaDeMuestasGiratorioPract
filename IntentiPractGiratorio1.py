@@ -173,7 +173,7 @@ for i in range(int(sys.argv[2])):
         EscrBuffer = Pw.ContInput()
         #Este while esta puesto solo por seguridad
 
-    Ardu.Vuelta360H()
+    Ardu.XgradosH(sys.argv[1])
     Pw.ContRead() #Este se amplica para que no lea la instruccion.
     print("vuelta ",i," a")
     while(Pw.ContInput()>0 and verificador != 13):
@@ -229,7 +229,7 @@ for i in range(int(sys.argv[2])):
     for j in ("c"+'\r'):
         time.sleep(1.5)
         Pw.Escribir(str(j))
-    Ardu.Vuelta360A()
+    Ardu.XgradosA(sys.argv[1])
     Pw.ContRead() #Este se amplica para que no lea la instruccion.
     while(Pw.ContInput()>0 and verificador != 13):
         #aquí se realiza la lectura del buffer, los datos se limpian antes de ser verificado
@@ -274,15 +274,16 @@ for i in range(int(sys.argv[2])):
         plt.show(block = False)
         plt.draw()
     except:
-        fallos.append(str(i).zfill(3)+"AntiHorario")
+        fallos.append(str(i).zfill(3)+"Antihorario")
         novueltas+=1
 
 plt.show(block = True)
 print("\nCantidad de vueltas realizadas horario y antihorario: ", int(sys.argv[2])*2 - novueltas)
 print("Las vueltas que fallaron son: ", fallos)
 
+Pw.End()
+Ardu.End()
 for i in fallos:
     old_name = r""
     os.rename(old_name+(foldername+"vuelta"+str(i)+".csv"),old_name+(foldername+"vuelta"+str(i)+"R.csv"))
-Pw.End()
-Ardu.End()
+
