@@ -67,14 +67,12 @@ class Controlador():
     def End(self):
         self.ser.close()
 
-#Esta clase fue creada con el proposito de crear el archivo .csv lo mas simple y ordenadamente como se era posible
-
+#Clase arduino que contiene todos los metodos que quizas se puedan llegar a usar en este código
 class Arduino():
     def __init__(self):
         #caso linux
         puerto=[x for x in os.listdir('/dev') if x[:6]=='ttyACM'][0]
         puerto = '/dev/'+puerto
-        #caso windows
         try:
             self.arduino= serial.Serial(puerto,
             baudrate=115200
@@ -100,21 +98,27 @@ class Arduino():
 
     def Vuelta360A(self):
         self.Escribir('H')
+        #Giro 360 Antihorario
 
     def Vuelta360H(self):
         self.Escribir('G')
+        #Giro 360 Horario
 
     def XgradosH(self, grados):
         self.Escribir('N'+grados+'\r')
+        #Giro n grados Horario
 
     def XgradosA(self, grados):
         self.Escribir('O'+grados+'\r')
+        #Giro n grados Antihorario
 
     def UnGradoH(self):
         self.Escribir('E')
+        #Giro 1 grado Horario
 
     def UnGradoA(self):
         self.Escribir('F')
+        #Giro 1 grado Antihorario
 
     def Flush(self):
         self.arduino.flush()
@@ -122,6 +126,8 @@ class Arduino():
     def End(self):
         self.arduino.close()
         
+
+#Esta clase fue creada con el proposito de crear el archivo .csv lo mas simple y ordenadamente como se era posible
 
 class Archivo():
     def __init__(self, carpeta, narch):
@@ -134,9 +140,6 @@ class Archivo():
 
     def Cerrar(self):
         self.save.close()
-    
-    def Renombrar(self):
-        return
 
 
 
@@ -185,11 +188,14 @@ for i in range(int(sys.argv[2])):
         try:
             tiempo = str(data[0])[2:12]
             potencia = str(data[1])[0:6]
+            #Aqui se filtra las parte importante de los datos tomados, osea el tiempo y potencia, se aplica esto para que no lleguen con datos extraños al csv y quede lo mas limpio posible
         except:
             print("Se termino una vuelta")
             file.Cerrar()
         try:
-            if((int(tiempo) == 0 or vale) and int(oldtiempo)<=int(tiempo)):
+            if((int(tiempo) == 0 or vale) and int(oldtiempo)<=int(tiempo)):#Esta condicion evalua, en primer lugar si el tiempo puede ser un integer
+                #En segundo lugar evalua si es que el primer valor que se recibio de esta vuelta fue 0, en caso contrario se toma como que la medicion esta mal
+                #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
                 VecPotencia.append(potencia)
@@ -197,15 +203,21 @@ for i in range(int(sys.argv[2])):
                 file.Escribir(tiempo, potencia)
                 vale = True
             else:
+                #Pese a que el archivo este malo, igual se escribe en el archivo para su posterior analisis
                 file.Escribir(tiempo, potencia)
         except:
             print("Se descarta dato o ya no hay datos")
         if(Ardu.ContInput() and not valid):
+            #Cuando el Arduino envie algo significa que termino la vuelta, por lo tanto se deja de tomar muestras
             print("SE CUMPLIO LA CONDICION")
             valid = True
             Pw.Escribir('\r')
+            #Cabe decir que se siguiran revisando el buffer el Pm002 para tener todas las muestras que tomo en la vuelta
     try:
+        #Si es que el vector potencia tiene potencias, esta parte no deberia ed tirar error, si es que tira error se toma como una vuelta con fallos
         VectorPotencias_array=np.asarray(VecPotencia)
+        #Lo siguiente son todos los parametros insertados para ver el diagrama de radiación
+        #Lo más importante es el factor ion() y el pause(), estos se hacen para que el diagrama sea iterativo y no interrumpa la ejecución del código
         theta=np.arange(0,2*np.pi, (2*np.pi)/len(VectorPotencias_array))
         ax1 = plt.subplot(111, polar = True, facecolor="lightgoldenrodyellow")
         plt.ion()
@@ -218,6 +230,7 @@ for i in range(int(sys.argv[2])):
         plt.show(block = False)
         plt.draw()
     except: 
+        #Se guarda el numero de rotacion fallido
         fallos.append(str(i).zfill(3)+"Horario")
         novueltas+=1
     initvalues(Pw)
@@ -239,11 +252,14 @@ for i in range(int(sys.argv[2])):
         try:
             tiempo = str(data[0])[2:12]
             potencia = str(data[1])[0:6]
+            #Aqui se filtra las parte importante de los datos tomados, osea el tiempo y potencia, se aplica esto para que no lleguen con datos extraños al csv y quede lo mas limpio posible
         except:
             print("Se termino una vuelta")
             file.Cerrar()
         try:
-            if((int(tiempo) == 0 or vale) and int(oldtiempo)<=int(tiempo)):
+            if((int(tiempo) == 0 or vale) and int(oldtiempo)<=int(tiempo)): #Esta condicion evalua, en primer lugar si el tiempo puede ser un integer
+                #En segundo lugar evalua si es que el primer valor que se recibio de esta vuelta fue 0, en caso contrario se toma como que la medicion esta mal
+                #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
                 VecPotencia.append(potencia)
@@ -251,17 +267,22 @@ for i in range(int(sys.argv[2])):
                 oldtiempo = tiempo
                 vale = True
             else:
+                #Pese a que el archivo este malo, igual se escribe en el archivo para su posterior analisis
                 file.Escribir(tiempo, potencia)
         except:
             print("Se descarta dato o ya no hay datos")
         if(Ardu.ContInput() and not valid):
             print("SE CUMPLIO LA CONDICION")
             Pw.Escribir('\r')
+            #Cuando el Arduino envie algo significa que termino la vuelta, por lo tanto se deja de tomar muestras
             valid = True
+            #Cabe decir que se siguiran revisando el buffer el Pm002 para tener todas las muestras que tomo en la vuelta
     Ardu.ContRead()
     try:
+        #Si es que el vector potencia tiene potencias, esta parte no deberia ed tirar error, si es que tira error se toma como una vuelta con fallos
         VectorPotencias_array=np.asarray(VecPotencia)
-
+        #Lo siguiente son todos los parametros insertados para ver el diagrama de radiación
+        #Lo más importante es el factor ion() y el pause(), estos se hacen para que el diagrama sea iterativo y no interrumpa la ejecución del código
         theta=np.arange(0,2*np.pi, (2*np.pi)/len(VectorPotencias_array))
         ax1 = plt.subplot(111, polar = True, facecolor="lightgoldenrodyellow")
         plt.ion()
@@ -274,15 +295,18 @@ for i in range(int(sys.argv[2])):
         plt.show(block = False)
         plt.draw()
     except:
+        #Se guarda el numero de rotacion fallido 
         fallos.append(str(i).zfill(3)+"Antihorario")
         novueltas+=1
 
 plt.show(block = True)
+#Se imprime la cantidad de rotaciones no realizadas y se dicen cuales fueron.
 print("\nCantidad de vueltas realizadas horario y antihorario: ", int(sys.argv[2])*2 - novueltas)
 print("Las vueltas que fallaron son: ", fallos)
 
 Pw.End()
 Ardu.End()
+#Este for es para cambiarle el nombre a los archivos creados que hayan tenido fallas para su facil identificacion al momento de volver a ver los datos.
 for i in fallos:
     old_name = r""
     os.rename(old_name+(foldername+"vuelta"+str(i)+".csv"),old_name+(foldername+"vuelta"+str(i)+"R.csv"))
