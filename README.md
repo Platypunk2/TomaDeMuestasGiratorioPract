@@ -18,9 +18,35 @@
 
 ## Sobre el código
 
+El código fue creado para lograr hacer mediciones de una antena rotando en su propio eje para lograr caracterizar el diagrama de radiación de la antena. Para realizar esto se implementaron 3 codigos, de los cuales se explicaran 2, el del arduino y el de la toma de muestras junto con la vista del diagrama de radiación.
+
+### Arduino
+
+El código arduino es simple, se implementaron 6 casos dependiendo del input del usuario:
+
+* **G**: Permite hacer girar a 360° en sentido horario.
+* **H**: Permite hacer girar a 360° en sentido antihorario.
+* **Nn\r**: Permite hacer girar a n° en sentido horario, siendo n un grado entre 1.8 a 360.
+* **On\r**: Permite hacer girar a n° en sentido antihorario, siendo n un grado entre 1.8 a 360.
+* **E**: Permite girar en sentido horario un solo grado.
+* **F**: Permite girar en sentido antihorario un solo grado.
+
+Se implemento una funcion de la cual, entregando una cantidad de grados y una velocidad, pemite hacer funcionar el motor para que la antena logre rotar la cantidad de grados insertada.
+
+### Código toma de muestras
+
+El código, a diferencia del arduino, es complicado y funciona derrepente, me explico. Como se habia visto en el repositorio [Toma de Muestras Pw002](https://github.com/Platypunk2/TomaMuestrasRFPowerMeter002), para que funcione la antena se tiene que dejar un tiempo para que el buffer logre prender y funcionar correctamente, en este caso no fue la excepeción y, ademas, se tuvo que añadir ciertos time.sleep() porque el buffer fallaba muy seguido al insertar datos muy rápido. Pese a implementar esto ultimo, no se logro hacer que el código funcionara en el 100% de las muestras, pero que si detecatara cuando una vuelta estuviera mala y no tomar esta en cuenta para el diagrama de radiación, junto con catalogar el .csv de sus datos con una "R", significando esta raro, se realizo con el objetivo de, cuando se terminen de realizar todas las muestras, revisar esos datos y encontrar porque estos no funcionan para el analizis de la antena.
+
+El código posee tres clases, las cuales son Controlador, Arduino y Archivo:
+
+* **Controlador**: En esta se crearon los metodos necesarios para capturar los datos de la antena y poder manipular lo que se escribe y lee del buffer por parte del PowerMeter002
+* **Arduino**: El arduino posee los metodos correspondientes a las rotaciones posibles que puede realizar la antena, esto incluye los comandos dichos en la sección Arduino de este repositorio.
+* **Archivo**:
+
 
 ## :shipit: Instalación
 
+Para lograr ejecutar el codigo se necesitan tener en consideracion los siguientes elementos:
 
 ### Pre-Requisitos
 
