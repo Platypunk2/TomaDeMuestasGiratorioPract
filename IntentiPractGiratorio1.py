@@ -313,6 +313,7 @@ promMaxPot = 0
 for i in maxPotencia:
     promMaxPot = float(promMaxPot) + float(i)
 print("Potencia maxima promedio: ", promMaxPot/len(maxPotencia))
+plt.savefig(foldername+"DiagramaDeRadiacion.jpg")
 plt.show(block = True)
 #Se imprime la cantidad de rotaciones no realizadas y se dicen cuales fueron.
 print("\nCantidad de vueltas realizadas horario y antihorario: ", int(sys.argv[2])*2 - novueltas)
