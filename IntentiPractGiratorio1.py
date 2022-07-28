@@ -144,7 +144,7 @@ class Archivo():
 
 
 def initvalues(Pw):
-    global meanpotencia, maxPeak, potenciaold, muestras, oldtiempo, valid, verificador, VueltaTerminada, VecPotencia, vale
+    global meanpotencia, maxPeak, potenciaold, muestras, oldtiempo, valid, verificador, VueltaTerminada, VecPotencia, vale, potencia
     meanpotencia = 0
     maxPeak = -100
     potenciaold=-100
@@ -156,6 +156,7 @@ def initvalues(Pw):
     Pw.FlushInput()
     VecPotencia = []
     vale = False
+    potencia =""
 
 Pw = Controlador()
 Ardu = Arduino()
@@ -186,9 +187,17 @@ for i in range(int(sys.argv[2])):
         out = str(Pw.ContRead())
         data = out.split(',')
         verificador = len(str(data))
+        potencia = ""
+        if(len(data) == 2):
+            for k in str(data[1]):
+                try:
+                    carac = int(k)
+                    potencia = potencia + str(k)
+                except:
+                    if(str(k) == "-" or str(k) == "."):
+                        potencia = potencia + str(k)
         try:
             tiempo = str(data[0])[2:12]
-            potencia = str(data[1])[0:6]
             #Aqui se filtra las parte importante de los datos tomados, osea el tiempo y potencia, se aplica esto para que no lleguen con datos extraños al csv y quede lo mas limpio posible
         except:
             print("Se termino una vuelta")
@@ -228,7 +237,7 @@ for i in range(int(sys.argv[2])):
         r=np.asarray(VecPotencia)
         ax1.plot(theta[0:len(VectorPotencias_array)], r,  color='r', linewidth=3, alpha = 0.150)
         ax1.set_rmin(-70)
-        ax1.set_rmax(-15)
+        ax1.set_rmax(0)
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
@@ -253,9 +262,17 @@ for i in range(int(sys.argv[2])):
         out = str(Pw.ContRead())
         data = out.split(',')
         verificador = len(str(data))
+        potencia = ""
+        if(len(data)==2):
+            for k in str(data[1]):
+                try:
+                    carac = int(k)
+                    potencia = potencia + str(k)
+                except:
+                    if(str(k) == "-" or str(k) == "."):
+                        potencia = potencia + str(k)
         try:
             tiempo = str(data[0])[2:12]
-            potencia = str(data[1])[0:6]
             #Aqui se filtra las parte importante de los datos tomados, osea el tiempo y potencia, se aplica esto para que no lleguen con datos extraños al csv y quede lo mas limpio posible
         except:
             print("Se termino una vuelta")
@@ -296,7 +313,7 @@ for i in range(int(sys.argv[2])):
         r=np.asarray(VecPotencia)
         ax1.plot(theta[0:len(VectorPotencias_array)], r[::-1],  color='b', linewidth=3, alpha = 0.150)
         ax1.set_rmin(-70)
-        ax1.set_rmax(-15)
+        ax1.set_rmax(0)
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
