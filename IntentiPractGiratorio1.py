@@ -208,8 +208,8 @@ for i in range(int(sys.argv[2])):
                 #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
-                if(float(maxPeak)<potencia):
-                    maxPeak = potencia
+                if(float(maxPeak)<pow(10,float(potencia)/10.0)):
+                    maxPeak = pow(10,float(potencia)/10.0)
                 VecPotencia.append(potencia)
                 oldtiempo = tiempo
                 file.Escribir(tiempo, potencia)
@@ -237,7 +237,7 @@ for i in range(int(sys.argv[2])):
         r=np.asarray(VecPotencia)
         ax1.plot(theta[0:len(VectorPotencias_array)], r,  color='r', linewidth=3, alpha = 0.150)
         ax1.set_rmin(-70)
-        ax1.set_rmax(0)
+        ax1.set_rmax(10)
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
@@ -283,8 +283,8 @@ for i in range(int(sys.argv[2])):
                 #Por ultimo se evalua que los tiempos vayan de menor a mayor, esto se hace por si en algun punto se discordinan las medidas
                 tiempo = int(tiempo)
                 potencia = float(potencia)
-                if(float(maxPeak)<potencia):
-                    maxPeak = potencia
+                if(float(maxPeak)<pow(10,float(potencia)/10.0)):
+                    maxPeak = pow(10,float(potencia)/10.0)
                 VecPotencia.append(potencia)
                 file.Escribir(tiempo, potencia)
                 oldtiempo = tiempo
@@ -313,7 +313,7 @@ for i in range(int(sys.argv[2])):
         r=np.asarray(VecPotencia)
         ax1.plot(theta[0:len(VectorPotencias_array)], r[::-1],  color='b', linewidth=3, alpha = 0.150)
         ax1.set_rmin(-70)
-        ax1.set_rmax(0)
+        ax1.set_rmax(10)
         plt.pause(0.01)
         plt.show(block = False)
         plt.draw()
@@ -329,7 +329,7 @@ print("\nMax Peak de todas las vueltas: ", maxPotencia)
 promMaxPot = 0
 for i in maxPotencia:
     promMaxPot = float(promMaxPot) + float(i)
-print("Potencia maxima promedio: ", promMaxPot/len(maxPotencia))
+print("Potencia maxima promedio: ", 10*math.log10(promMaxPot/len(maxPotencia)))
 plt.savefig(foldername+"DiagramaDeRadiacion.jpg")
 plt.show(block = True)
 #Se imprime la cantidad de rotaciones no realizadas y se dicen cuales fueron.
