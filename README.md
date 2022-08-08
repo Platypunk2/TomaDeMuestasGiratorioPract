@@ -10,7 +10,7 @@
 
 ## Descripción
 
-En este trabajo se busca la caracterización de una antena mediante la realizacion de diagramas de radiación, para ello se implemento un sistema que va a ir rotando con una antena receptora, se registraran los datos correspondientes de las mediciones y se procede a realizar los diagramas de radiación.
+En este trabajo se busca la caracterización de una antena mediante la realizacion de diagramas de radiación, para ello se implemento un sistema que va a ir rotando con una antena receptora. Se registraran los datos correspondientes de las mediciones y se procede a realizar los diagramas de radiación.
 
 ### 🛠 Construído con:
 
@@ -19,7 +19,7 @@ En este trabajo se busca la caracterización de una antena mediante la realizaci
 
 ## Sobre el código
 
-El código fue creado para lograr hacer mediciones de una antena rotando en su propio eje para lograr caracterizar el diagrama de radiación de la antena. Para realizar esto se implementaron 3 codigos, de los cuales se explicaran 2, el del arduino y el de la toma de muestras junto con la vista del diagrama de radiación.
+El código fue creado para lograr hacer mediciones de una antena rotando en su propio eje para lograr caracterizar el diagrama de radiación de la antena. Para realizar esto se implementaron tres codigos, de los cuales se explicaran dos, el del arduino y el de la toma de muestras junto con la vista del diagrama de radiación.
 
 ### Arduino
 
